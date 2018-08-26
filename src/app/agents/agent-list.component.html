@@ -1,0 +1,57 @@
+<div class='card'>
+    <div class='card-header'>
+      {{pageTitle}}
+    </div>
+    <div class='card-body'>
+      <div class='row'>
+        <div class='col-md-1'>Filter by:</div>
+        <div class='col-md-4'>
+          <input type='text' 
+          [(ngModel)] = 'listFilter'/>
+        </div>
+      </div>
+      <div class='row'>
+           
+        <div class='col-md-6'>
+          <h4>Filtered by: {{listFilter}}</h4>
+        </div>
+      </div>
+      <div class='table-responsive'>
+        <table class='table' *ngIf='agents && agents.length'>
+          <thead>
+            <tr>
+              <th>
+                <button class='btn btn-primary'
+                (click)='toggleDisplay()'>
+                  {{showDisplayDetails ? 'Hide' : 'Show'}} Stuff
+                </button>
+              </th>
+              <th>Agency Name</th>
+              <th>Agency Code</th>
+              <th>Application Submitted</th>
+              <th>Principal</th>
+              <th>Telephone</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+<tr *ngFor='let agent of filteredAgents'>
+    <td><a *ngIf='showDisplayDetails' 
+        [href]='agent.redirect'>Display Details</a></td>
+    <td><a [routerLink]="['/agents', agent.agencyId]">
+      {{ agent.agencyName | uppercase }}</a>
+    </td>
+    <td>{{ agent.agencyCode }}</td>
+    <td>{{ agent.submitted | date}}</td>
+    <td>{{ agent.principal }}</td>
+    <td>{{ agent.telephone }}</td>
+    <td>{{ agent.status }}</td>
+</tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div *ngIf='errorMessage'
+     class='alert alert-danger'>
+  Error: {{ errorMessage }}
+</div>
